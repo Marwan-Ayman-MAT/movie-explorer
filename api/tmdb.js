@@ -1,8 +1,6 @@
 export default async function handler(req, res) {
-  const { path = [], ...queryParams } = req.query;
-  const endpoint = Array.isArray(path) ? path.join("/") : path;
-  const queryString = new URLSearchParams(queryParams).toString();
-  const url = `https://api.themoviedb.org/3/${endpoint}${queryString ? `?${queryString}` : ""}`;
+  const targetPath = req.url.replace(/^\/api\/tmdb\/?/, "");
+  const url = `https://api.themoviedb.org/3/${targetPath}`;
 
   try {
     const response = await fetch(url, {
